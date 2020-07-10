@@ -1,0 +1,50 @@
+apply from: rootProject.rootDir.getAbsolutePath() + "/gradles/utils.gradle"
+
+ext {
+    gradlesPath = rootProject.rootDir.getAbsolutePath() + "/gradles/"
+}
+
+/** ******************************************************************************************/
+buildscript {
+    apply from: rootProject.rootDir.getAbsolutePath() + "/gradles/const.gradle"
+
+    repositories {
+        mavenLocal()
+        maven { url "https://maven.aliyun.com/repository/gradle-plugin" }
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+/** ******************************************************************************************/
+
+allprojects {
+    group rootProject.name
+    version "1.0.0"
+
+    repositories {
+        mavenLocal()
+        maven { url "https://maven.aliyun.com/repository/public" }
+        maven { url "https://mirrors.huaweicloud.com/repository/maven/" }
+    }
+}
+
+subprojects {
+    configurations.all {
+        //不使用缓存，使用仓库中最新的包
+        resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds' // 动态版本 x.x.+
+        resolutionStrategy.cacheChangingModulesFor 0, 'seconds'//  变化版本 x.x.x
+        resolutionStrategy {
+            force "com.google.guava:guava:${guavaVersion}"
+            force "io.netty:netty-all:${nettyVersion}"
+        }
+    }
+}
+
+configure(getJavaProjects()) {
+    apply from: gradlesPath + "java.gradle"
+}
+
+/** ******************************************************************************************/

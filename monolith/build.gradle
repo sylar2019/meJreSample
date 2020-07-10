@@ -1,0 +1,7 @@
+apply from: gradlesPath + "springboot.gradle"
+
+dependencies {
+    compile project(":io:codec:codec-jsonLine")
+    compile("org.springframework.boot:spring-boot-loader:${springBootVersion}")
+    compile("commons-io:commons-io:2.6")
+}

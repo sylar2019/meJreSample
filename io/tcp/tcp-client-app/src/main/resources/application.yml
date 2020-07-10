@@ -1,0 +1,4 @@
+spring.output.ansi.enabled: ALWAYS
+spring:
+  application:
+    name: tcp-server-app

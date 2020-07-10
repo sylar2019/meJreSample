@@ -1,0 +1,28 @@
+/*
+Spring Cloud与Spring Boot版本匹配关系
+Spring Cloud	Spring Boot
+Finchley	    兼容Spring Boot 2.0.x，不兼容Spring Boot 1.5.x
+Dalston	        兼容Spring Boot 1.5.x，不兼容Spring Boot 2.0.x
+Edgware	        兼容Spring Boot 1.5.x，不兼容Spring Boot 2.0.x
+Camden	        兼容Spring Boot 1.4.x，也兼容Spring Boot 1.5.x
+Brixton	        兼容Spring Boot 1.3.x，也兼容Spring Boot 1.4.x
+Angel	        兼容Spring Boot 1.2.x
+*/
+
+ext {
+    springBootVersion = "1.5.18.RELEASE"
+    springBootAdminVersion = "1.5.7"
+    springCloudVersion = "Edgware.SR3"
+
+    junitVersion = "4.12"
+    validationApiVersion = "2.0.1.Final"
+    dubboVersion = "2.5.3"
+    fastjsonVersion = "1.2.8"
+    jacksonVersion = "2.9.7"
+    guavaVersion = "28.1-jre"
+    jodatimeVersion = "2.9.9"
+    nettyVersion = "4.1.43.Final"
+    feignVersion = "8.18.0"
+
+    meJreLibsVersion = "1.0.0"
+}

@@ -1,0 +1,6 @@
+apply from: gradlesPath + "springboot.gradle"
+
+dependencies {
+    compile project(":io:codec:codec-jsonLine")
+    compile("meJreLibs:io-core:${meJreLibsVersion}")
+}

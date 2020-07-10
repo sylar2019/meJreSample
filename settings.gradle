@@ -1,0 +1,30 @@
+rootProject.name = "meJreSample"
+
+include ":io"
+include ":io:codec"
+include ":io:codec:codec-jsonLine"
+
+include ":io:tcp"
+include ":io:tcp:tcp-server-app"
+include ":io:tcp:tcp-client-app"
+
+include ":io:udp"
+include ":io:udp:udp-unicast-app"
+include ":io:udp:udp-broadcast-app"
+include ":io:udp:udp-multicast-app"
+
+include ":io:websocket"
+include ":io:websocket:ws-server-app"
+include ":io:websocket:ws-client-app"
+
+include ":io:rxtx"
+include ":io:rxtx:rxtx-app"
+
+include ":io:mqtt"
+include ":io:mqtt:mqtt-server-app"
+include ":io:mqtt:mqtt-client-app"
+
+include ":io:modbus"
+include ":io:coap"
+
+include ":monolith"
