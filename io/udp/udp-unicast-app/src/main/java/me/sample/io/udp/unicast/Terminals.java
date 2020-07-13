@@ -1,7 +1,7 @@
 package me.sample.io.udp.unicast;
 
-import me.java.library.io.Terminal;
-import me.java.library.io.TerminalNode;
+import me.java.library.io.common.cmd.Terminal;
+import me.java.library.io.common.cmd.TerminalNode;
 
 /**
  * File Name             :  Terminals
