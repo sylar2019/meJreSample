@@ -1,7 +1,10 @@
 package me.sample.io.websocket.server;
 
+import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
+import io.netty.buffer.Unpooled;
 import io.netty.handler.logging.LogLevel;
+import io.netty.util.CharsetUtil;
 import me.java.library.io.common.cmd.Cmd;
 import me.java.library.io.common.cmd.Host;
 import me.java.library.io.common.cmd.Terminal;
@@ -57,15 +60,15 @@ public class Server {
 
     private WebSocketServerBus getBus() {
         WebSocketServerBus bus = new WebSocketServerBus();
-        bus.setPort(10000);
+        bus.setPort(8800);
         return bus;
     }
 
     private WebSocketServerCodec getCodec() {
-        WebSocketServerCodec tcpCodec = new WebSocketServerCodec(WebSocketCmdResolver.DEFAULT);
-        tcpCodec.setLogLevel(LogLevel.INFO);
+        WebSocketServerCodec codec = new WebSocketServerCodec(WebSocketCmdResolver.DEFAULT);
+        codec.setLogLevel(LogLevel.INFO);
 
-        return tcpCodec;
+        return codec;
     }
 
     private PipeWatcher watcher = new PipeWatcher() {
@@ -88,22 +91,31 @@ public class Server {
         public void onReceived(Pipe pipe, Cmd cmd) {
             if (cmd instanceof WebSocketCmdNode) {
                 WebSocketCmdNode wsCmd = (WebSocketCmdNode) cmd;
+                WebSocketCmdNode res = null;
                 switch (wsCmd.getWebSocketFrameType()) {
-                    case Binary:
-                        logger.info(String.format("### onReceived Text: \n%s", wsCmd.getBinaryContent()));
-                        break;
                     case Text:
+                        logger.info(String.format("### onReceived Text: %s", wsCmd.getTextContent()));
+
+                        //回应
+                        res = WebSocketCmdNode.fromText("Received text: " + wsCmd.getTextContent());
+                        break;
+                    case Binary:
                         logger.info("### onReceived Binary: \n");
                         ByteBufUtil.prettyHexDump(wsCmd.getBinaryContent());
+
+                        //回应
+                        ByteBuf buf = Unpooled.buffer();
+                        buf.writeBytes("Received binary".getBytes(CharsetUtil.UTF_8));
+                        res = WebSocketCmdNode.fromBinary(buf);
                         break;
                     default:
                         break;
                 }
+
+                if (res != null) {
+                    pipe.send(res);
+                }
             }
-
-
-//            JsonCmd res = JsonCmdUtils.serverToClient("222");
-//            pipe.send(res);
         }
 
         @Override

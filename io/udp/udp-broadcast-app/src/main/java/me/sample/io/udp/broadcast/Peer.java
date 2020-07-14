@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
  */
 public class Peer {
 
-    public final static String BROADCAST_HOST = AbstractSocketBus.defaultBroadcastHost;
+    public final static String BROADCAST_HOST = AbstractSocketBus.DEFAULT_BROADCAST_HOST;
     public final static int BROADCAST_PORT = 11000;
 
     private Logger logger = LoggerFactory.getLogger(getClass());

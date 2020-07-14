@@ -1,15 +1,15 @@
-package me.sample.io.udp.multicast;
+package me.sample.io.websocket.client;
 
-import me.java.library.io.common.bus.AbstractSocketBus;
+import io.netty.handler.logging.LogLevel;
 import me.java.library.io.common.cmd.Cmd;
 import me.java.library.io.common.cmd.Host;
 import me.java.library.io.common.cmd.Terminal;
 import me.java.library.io.common.pipe.Pipe;
 import me.java.library.io.common.pipe.PipeWatcher;
-import me.java.library.io.store.udp.UdpCodec;
-import me.java.library.io.store.udp.UdpMulticastBus;
-import me.java.library.io.store.udp.UdpMulticastPipe;
-import me.sample.io.codec.jsonLine.JsonResolver;
+import me.java.library.io.store.ws.WebSocketClientBus;
+import me.java.library.io.store.ws.WebSocketClientCodec;
+import me.java.library.io.store.ws.WebSocketClientPipe;
+import me.java.library.io.store.ws.WebSocketCmdResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,25 +28,17 @@ import org.slf4j.LoggerFactory;
  * CopyRight             : COPYRIGHT(c) allthings.vip  All Rights Reserved
  * *******************************************************************************************
  */
-public class Peer {
-
-    public final static String MULTICAST_HOST = AbstractSocketBus.DEFAULT_MULTICAST_HOST;
-    public final static int MULTICAST_PORT = 12000;
+public class Client {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    private int port;
-    private UdpMulticastPipe pipe;
-
-    public Peer(int port) {
-        this.port = port;
-    }
+    private WebSocketClientPipe pipe;
 
     public void start() {
         if (pipe == null) {
-            UdpMulticastBus bus = getBus();
-            UdpCodec codec = getCodec();
-            pipe = new UdpMulticastPipe(bus, codec);
+            WebSocketClientBus bus = getBus();
+            WebSocketClientCodec codec = getCodec();
+            pipe = new WebSocketClientPipe(bus, codec);
             pipe.setWatcher(watcher);
         }
         pipe.start();
@@ -64,16 +56,18 @@ public class Peer {
         }
     }
 
-    private UdpMulticastBus getBus() {
-        UdpMulticastBus bus = new UdpMulticastBus();
-        bus.setNetworkInterfaceName("en0");
-        bus.setPort(port);
+    private WebSocketClientBus getBus() {
+        WebSocketClientBus bus = new WebSocketClientBus();
+//        bus.setHost("121.40.165.18");
+        bus.setHost("127.0.0.1");
+        bus.setPort(8800);
         return bus;
     }
 
-    private UdpCodec getCodec() {
-        JsonResolver resolver = new JsonResolver();
-        return new UdpCodec(resolver);
+    private WebSocketClientCodec getCodec() {
+        WebSocketClientCodec codec = new WebSocketClientCodec(WebSocketCmdResolver.DEFAULT);
+        codec.setLogLevel(LogLevel.INFO);
+        return codec;
     }
 
     private PipeWatcher watcher = new PipeWatcher() {
@@ -95,8 +89,6 @@ public class Peer {
         @Override
         public void onReceived(Pipe pipe, Cmd cmd) {
             logger.info(String.format("### onReceived: \n%s", cmd));
-//            JsonCmd res = new JsonCmd(cmd.getTo(), cmd.getFrom(), "111");
-//            pipe.send(res);
         }
 
         @Override
