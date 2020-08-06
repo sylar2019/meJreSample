@@ -23,7 +23,20 @@ include ":io:rxtx:rxtx-app"
 include ":io:mqtt"
 include ":io:mqtt:mqtt-client-app"
 
-include ":io:modbus"
 include ":io:coap"
+include ":io:coap:coap-client-app"
+include ":io:coap:coap-server-app"
 
-include ":monolith"
+include ":io:lwm2m"
+include ":io:lwm2m:lwm2m-client-app"
+include ":io:lwm2m:lwm2m-server-app"
+include ":io:lwm2m:lwm2m-bsserver-app"
+
+include ":io:modbus"
+include ":io:modbus:modbus-ascii-app"
+include ":io:modbus:modbus-rtu-app"
+include ":io:modbus:modbus-tcp-app"
+
+include ":io:opc"
+include ":io:opc:opc-client-app"
+
