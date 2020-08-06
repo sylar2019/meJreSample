@@ -1,6 +1,6 @@
 package me.sample.io.websocket.client;
 
-import me.java.library.io.store.ws.WebSocketCmdNode;
+import me.java.library.io.store.websocket.WebSocketCmdNode;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

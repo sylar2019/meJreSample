@@ -21,7 +21,6 @@ include ":io:rxtx"
 include ":io:rxtx:rxtx-app"
 
 include ":io:mqtt"
-include ":io:mqtt:mqtt-server-app"
 include ":io:mqtt:mqtt-client-app"
 
 include ":io:modbus"

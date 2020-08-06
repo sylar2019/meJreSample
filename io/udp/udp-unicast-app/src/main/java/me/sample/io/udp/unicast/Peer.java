@@ -5,8 +5,6 @@ import me.java.library.io.common.cmd.Host;
 import me.java.library.io.common.cmd.Terminal;
 import me.java.library.io.common.pipe.Pipe;
 import me.java.library.io.common.pipe.PipeWatcher;
-import me.java.library.io.store.udp.UdpCodec;
-import me.java.library.io.store.udp.UdpUnicastBus;
 import me.java.library.io.store.udp.UdpUnicastPipe;
 import me.sample.io.codec.jsonLine.JsonCmd;
 import me.sample.io.codec.jsonLine.JsonResolver;
@@ -41,9 +39,7 @@ public class Peer {
 
     public void start() {
         if (pipe == null) {
-            UdpUnicastBus bus = getBus();
-            UdpCodec codec = getCodec();
-            pipe = new UdpUnicastPipe(bus, codec);
+            pipe = UdpUnicastPipe.express(port, new JsonResolver());
             pipe.setWatcher(watcher);
         }
         pipe.start();
@@ -59,17 +55,6 @@ public class Peer {
         if (pipe != null) {
             pipe.send(cmd);
         }
-    }
-
-    private UdpUnicastBus getBus() {
-        UdpUnicastBus bus = new UdpUnicastBus();
-        bus.setPort(port);
-        return bus;
-    }
-
-    private UdpCodec getCodec() {
-        JsonResolver resolver = new JsonResolver();
-        return new UdpCodec(resolver);
     }
 
     private PipeWatcher watcher = new PipeWatcher() {

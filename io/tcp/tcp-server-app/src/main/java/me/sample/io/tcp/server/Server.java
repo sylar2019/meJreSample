@@ -1,13 +1,10 @@
 package me.sample.io.tcp.server;
 
-import io.netty.handler.logging.LogLevel;
 import me.java.library.io.common.cmd.Cmd;
 import me.java.library.io.common.cmd.Host;
 import me.java.library.io.common.cmd.Terminal;
 import me.java.library.io.common.pipe.Pipe;
 import me.java.library.io.common.pipe.PipeWatcher;
-import me.java.library.io.store.tcp.TcpCodec;
-import me.java.library.io.store.tcp.TcpServerBus;
 import me.java.library.io.store.tcp.TcpServerPipe;
 import me.sample.io.codec.jsonLine.JsonCmd;
 import me.sample.io.codec.jsonLine.JsonCmdUtils;
@@ -39,9 +36,11 @@ public class Server {
 
     public void start() {
         if (pipe == null) {
-            TcpServerBus bus = getBus();
-            TcpCodec codec = getCodec();
-            pipe = new TcpServerPipe(bus, codec);
+            pipe = TcpServerPipe.express(
+                    1000,
+                    new JsonFrameDecoder(),
+                    new JsonResolver()
+            );
             pipe.setWatcher(watcher);
         }
         pipe.start();
@@ -58,20 +57,6 @@ public class Server {
             return pipe.isRunning();
         }
         return false;
-    }
-
-    private TcpServerBus getBus() {
-        TcpServerBus bus = new TcpServerBus();
-        bus.setPort(10000);
-        return bus;
-    }
-
-    private TcpCodec getCodec() {
-        JsonResolver resolver = new JsonResolver();
-        TcpCodec tcpCodec = new TcpCodec(resolver, JsonFrameDecoder.class);
-        tcpCodec.setLogLevel(LogLevel.INFO);
-
-        return tcpCodec;
     }
 
     private PipeWatcher watcher = new PipeWatcher() {

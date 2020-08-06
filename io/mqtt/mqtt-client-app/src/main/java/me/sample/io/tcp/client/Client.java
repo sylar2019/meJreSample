@@ -59,14 +59,14 @@ public class Client {
 
     private TcpClientBus getBus() {
         TcpClientBus bus = new TcpClientBus();
-        bus.setHost("192.168.1.112");
-        bus.setPort(10000);
+//        bus.setHost("192.168.1.112");
+//        bus.setPort(10000);
         return bus;
     }
 
     private TcpCodec getCodec() {
         JsonResolver resolver = new JsonResolver();
-        TcpCodec tcpCodec = new TcpCodec(resolver, JsonFrameDecoder.class);
+        TcpCodec tcpCodec = new TcpCodec(resolver, new JsonFrameDecoder());
         tcpCodec.setLogLevel(LogLevel.INFO);
         return tcpCodec;
     }

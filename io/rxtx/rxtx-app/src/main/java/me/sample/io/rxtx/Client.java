@@ -1,13 +1,10 @@
 package me.sample.io.rxtx;
 
-import io.netty.handler.logging.LogLevel;
 import me.java.library.io.common.cmd.Cmd;
 import me.java.library.io.common.cmd.Host;
 import me.java.library.io.common.cmd.Terminal;
 import me.java.library.io.common.pipe.Pipe;
 import me.java.library.io.common.pipe.PipeWatcher;
-import me.java.library.io.store.rxtx.RxtxBus;
-import me.java.library.io.store.rxtx.RxtxCodec;
 import me.java.library.io.store.rxtx.RxtxPipe;
 import me.sample.io.codec.jsonLine.JsonFrameDecoder;
 import me.sample.io.codec.jsonLine.JsonResolver;
@@ -37,9 +34,11 @@ public class Client {
 
     public void start() {
         if (pipe == null) {
-            RxtxBus bus = getBus();
-            RxtxCodec codec = getCodec();
-            pipe = new RxtxPipe(bus, codec);
+            pipe = RxtxPipe.express(
+                    "/dev/ttyAMA3",
+                    9600,
+                    new JsonFrameDecoder(),
+                    new JsonResolver());
             pipe.setWatcher(watcher);
         }
         pipe.start();
@@ -55,20 +54,6 @@ public class Client {
         if (pipe != null) {
             pipe.send(cmd);
         }
-    }
-
-    private RxtxBus getBus() {
-        RxtxBus bus = new RxtxBus();
-        bus.setRxtxPath("/dev/ttyAMA3");
-        bus.setRxtxBaud(115200);
-        return bus;
-    }
-
-    private RxtxCodec getCodec() {
-        JsonResolver resolver = new JsonResolver();
-        RxtxCodec rxtxCodec = new RxtxCodec(resolver, JsonFrameDecoder.class);
-        rxtxCodec.setLogLevel(LogLevel.INFO);
-        return rxtxCodec;
     }
 
     private PipeWatcher watcher = new PipeWatcher() {

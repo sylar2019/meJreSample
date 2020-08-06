@@ -3,14 +3,15 @@ package me.sample.io.websocket.server;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
 import io.netty.buffer.Unpooled;
-import io.netty.handler.logging.LogLevel;
 import io.netty.util.CharsetUtil;
 import me.java.library.io.common.cmd.Cmd;
 import me.java.library.io.common.cmd.Host;
 import me.java.library.io.common.cmd.Terminal;
 import me.java.library.io.common.pipe.Pipe;
 import me.java.library.io.common.pipe.PipeWatcher;
-import me.java.library.io.store.ws.*;
+import me.java.library.io.store.websocket.WebSocketCmdNode;
+import me.java.library.io.store.websocket.WebSocketCmdResolver;
+import me.java.library.io.store.websocket.server.WebSocketServerPipe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,9 +38,10 @@ public class Server {
 
     public void start() {
         if (pipe == null) {
-            WebSocketServerBus bus = getBus();
-            WebSocketServerCodec codec = getCodec();
-            pipe = new WebSocketServerPipe(bus, codec);
+            pipe = WebSocketServerPipe.express(
+                    "ws://127.0.0.1:8800/ws",
+                    WebSocketCmdResolver.DEFAULT
+            );
             pipe.setWatcher(watcher);
         }
         pipe.start();
@@ -56,19 +58,6 @@ public class Server {
             return pipe.isRunning();
         }
         return false;
-    }
-
-    private WebSocketServerBus getBus() {
-        WebSocketServerBus bus = new WebSocketServerBus();
-        bus.setPort(8800);
-        return bus;
-    }
-
-    private WebSocketServerCodec getCodec() {
-        WebSocketServerCodec codec = new WebSocketServerCodec(WebSocketCmdResolver.DEFAULT);
-        codec.setLogLevel(LogLevel.INFO);
-
-        return codec;
     }
 
     private PipeWatcher watcher = new PipeWatcher() {
