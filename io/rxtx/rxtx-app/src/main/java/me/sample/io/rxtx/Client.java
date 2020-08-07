@@ -30,14 +30,13 @@ import org.slf4j.LoggerFactory;
  */
 public class Client {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private RxtxPipe pipe;
 
     public void start() {
         if (pipe == null) {
-            RxtxParam param = new RxtxParam();
-
+            RxtxParam param = new RxtxParam("COM1", 9600);
             pipe = RxtxExpress.rxtx(
                     param,
                     new JsonFrameDecoder(),
