@@ -1,7 +1,7 @@
 package me.sample.io.codec.jsonLine;
 
 
-import me.java.library.io.common.cmd.Terminal;
+import me.java.library.io.base.cmd.Terminal;
 
 /**
  * File Name             :  JsonCmdUtils

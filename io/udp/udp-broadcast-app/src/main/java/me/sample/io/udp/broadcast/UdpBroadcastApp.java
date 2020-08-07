@@ -1,6 +1,6 @@
 package me.sample.io.udp.broadcast;
 
-import me.java.library.io.common.cmd.Terminal;
+import me.java.library.io.base.cmd.Terminal;
 import me.sample.io.codec.jsonLine.JsonCmd;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

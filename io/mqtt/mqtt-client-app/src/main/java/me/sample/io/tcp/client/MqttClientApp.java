@@ -1,12 +1,11 @@
-package me.sample.io.udp.multicast;
+package me.sample.io.tcp.client;
 
-import me.java.library.io.base.cmd.Terminal;
 import me.sample.io.codec.jsonLine.JsonCmd;
+import me.sample.io.codec.jsonLine.JsonCmdUtils;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import java.net.InetSocketAddress;
+import org.springframework.context.ConfigurableApplicationContext;
 
 import static java.lang.System.exit;
 
@@ -27,15 +26,16 @@ import static java.lang.System.exit;
  * *******************************************************************************************
  */
 @SpringBootApplication
-public class UdpMulticastApp implements CommandLineRunner {
+public class MqttClientApp implements CommandLineRunner {
     public static void main(String[] args) {
-        SpringApplication app = new SpringApplication(UdpMulticastApp.class);
-        app.run(args);
+        SpringApplication app = new SpringApplication(MqttClientApp.class);
+        app.setRegisterShutdownHook(true);
+        ConfigurableApplicationContext ctx = app.run(args);
     }
 
     @Override
     public void run(String... args) throws Exception {
-        Peer peer = new Peer(Peer.MULTICAST_PORT);
+        Client client = new Client();
         Menu.show();
         char ch;
         while ((ch = (char) System.in.read()) != Menu.Exit.getMenuKey()) {
@@ -44,19 +44,16 @@ public class UdpMulticastApp implements CommandLineRunner {
                 switch (menu) {
                     case Start:
                         System.out.println("start...");
-                        peer.start();
+                        client.start();
                         break;
                     case Stop:
                         System.out.println("stop...");
-                        peer.stop();
+                        client.stop();
                         break;
                     case Send:
                         System.out.println("send...");
-
-                        Terminal to = Terminal.REMOTE;
-                        to.setInetSocketAddress(InetSocketAddress.createUnresolved(Peer.MULTICAST_HOST, Peer.MULTICAST_PORT));
-                        JsonCmd cmd = new JsonCmd(Terminal.LOCAL, to, "222");
-                        peer.send(cmd);
+                        JsonCmd cmd = JsonCmdUtils.clientToServer("111");
+                        client.send(cmd);
                         break;
                     default:
                         break;
@@ -65,7 +62,7 @@ public class UdpMulticastApp implements CommandLineRunner {
             }
         }
 
-        peer.stop();
+        client.stop();
         exit(0);
     }
 }

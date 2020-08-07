@@ -1,12 +1,13 @@
 package me.sample.io.udp.multicast;
 
-import me.java.library.io.common.bus.AbstractSocketBus;
-import me.java.library.io.common.cmd.Cmd;
-import me.java.library.io.common.cmd.Host;
-import me.java.library.io.common.cmd.Terminal;
-import me.java.library.io.common.pipe.Pipe;
-import me.java.library.io.common.pipe.PipeWatcher;
-import me.java.library.io.store.udp.UdpMulticastPipe;
+import me.java.library.io.base.cmd.Cmd;
+import me.java.library.io.base.cmd.Host;
+import me.java.library.io.base.cmd.Terminal;
+import me.java.library.io.base.pipe.Pipe;
+import me.java.library.io.base.pipe.PipeWatcher;
+import me.java.library.io.core.bus.AbstractSocketBus;
+import me.java.library.io.store.socket.SocketExpress;
+import me.java.library.io.store.socket.udp.UdpMulticastPipe;
 import me.sample.io.codec.jsonLine.JsonResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +43,7 @@ public class Peer {
 
     public void start() {
         if (pipe == null) {
-            pipe = UdpMulticastPipe.express(
+            pipe = SocketExpress.udpMulticast(
                     "en0",
                     port,
                     new JsonResolver());

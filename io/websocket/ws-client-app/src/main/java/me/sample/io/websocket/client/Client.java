@@ -1,11 +1,12 @@
 package me.sample.io.websocket.client;
 
-import me.java.library.io.common.cmd.Cmd;
-import me.java.library.io.common.cmd.Host;
-import me.java.library.io.common.cmd.Terminal;
-import me.java.library.io.common.pipe.Pipe;
-import me.java.library.io.common.pipe.PipeWatcher;
+import me.java.library.io.base.cmd.Cmd;
+import me.java.library.io.base.cmd.Host;
+import me.java.library.io.base.cmd.Terminal;
+import me.java.library.io.base.pipe.Pipe;
+import me.java.library.io.base.pipe.PipeWatcher;
 import me.java.library.io.store.websocket.WebSocketCmdResolver;
+import me.java.library.io.store.websocket.WebSocketExpress;
 import me.java.library.io.store.websocket.client.WebSocketClientPipe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +34,7 @@ public class Client {
 
     public void start() {
         if (pipe == null) {
-            pipe = WebSocketClientPipe.express(
+            pipe = WebSocketExpress.client(
                     "ws://127.0.0.1:8800/ws",
                     WebSocketCmdResolver.DEFAULT);
             pipe.setWatcher(watcher);

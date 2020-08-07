@@ -2,10 +2,10 @@ package me.sample.io.codec.jsonLine;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Strings;
-import me.java.library.io.common.cmd.CmdNode;
-import me.java.library.io.common.cmd.CmdType;
-import me.java.library.io.common.cmd.Terminal;
-import me.java.library.io.common.cmd.TerminalNode;
+import me.java.library.io.base.cmd.CmdNode;
+import me.java.library.io.base.cmd.CmdType;
+import me.java.library.io.base.cmd.Terminal;
+import me.java.library.io.base.cmd.TerminalNode;
 import me.java.library.utils.base.JsonUtils;
 
 /**

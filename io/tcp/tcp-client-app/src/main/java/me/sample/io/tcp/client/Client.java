@@ -1,11 +1,13 @@
 package me.sample.io.tcp.client;
 
-import me.java.library.io.common.cmd.Cmd;
-import me.java.library.io.common.cmd.Host;
-import me.java.library.io.common.cmd.Terminal;
-import me.java.library.io.common.pipe.Pipe;
-import me.java.library.io.common.pipe.PipeWatcher;
-import me.java.library.io.store.tcp.TcpClientPipe;
+
+import me.java.library.io.base.cmd.Cmd;
+import me.java.library.io.base.cmd.Host;
+import me.java.library.io.base.cmd.Terminal;
+import me.java.library.io.base.pipe.Pipe;
+import me.java.library.io.base.pipe.PipeWatcher;
+import me.java.library.io.store.socket.SocketExpress;
+import me.java.library.io.store.socket.tcp.TcpClientPipe;
 import me.sample.io.codec.jsonLine.JsonFrameDecoder;
 import me.sample.io.codec.jsonLine.JsonResolver;
 import org.slf4j.Logger;
@@ -34,7 +36,7 @@ public class Client {
 
     public void start() {
         if (pipe == null) {
-            pipe = TcpClientPipe.express(
+            pipe = SocketExpress.tcpClient(
                     "localhost",
                     10000,
                     new JsonFrameDecoder(),

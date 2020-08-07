@@ -1,6 +1,6 @@
 package me.sample.io.websocket.client;
 
-import me.java.library.io.store.websocket.WebSocketCmdNode;
+import me.java.library.io.store.websocket.WebSocketCmd;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -51,7 +51,7 @@ public class WSClientApp implements CommandLineRunner {
                         break;
                     case Send:
                         System.out.println("send...");
-                        WebSocketCmdNode cmd = WebSocketCmdNode.fromText("hello wsServer, I am client");
+                        WebSocketCmd cmd = WebSocketCmd.fromText("hello wsServer, I am client");
                         client.send(cmd);
                         break;
                     default:

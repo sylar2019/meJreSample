@@ -4,13 +4,14 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
 import io.netty.buffer.Unpooled;
 import io.netty.util.CharsetUtil;
-import me.java.library.io.common.cmd.Cmd;
-import me.java.library.io.common.cmd.Host;
-import me.java.library.io.common.cmd.Terminal;
-import me.java.library.io.common.pipe.Pipe;
-import me.java.library.io.common.pipe.PipeWatcher;
-import me.java.library.io.store.websocket.WebSocketCmdNode;
+import me.java.library.io.base.cmd.Cmd;
+import me.java.library.io.base.cmd.Host;
+import me.java.library.io.base.cmd.Terminal;
+import me.java.library.io.base.pipe.Pipe;
+import me.java.library.io.base.pipe.PipeWatcher;
+import me.java.library.io.store.websocket.WebSocketCmd;
 import me.java.library.io.store.websocket.WebSocketCmdResolver;
+import me.java.library.io.store.websocket.WebSocketExpress;
 import me.java.library.io.store.websocket.server.WebSocketServerPipe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +39,7 @@ public class Server {
 
     public void start() {
         if (pipe == null) {
-            pipe = WebSocketServerPipe.express(
+            pipe = WebSocketExpress.server(
                     "ws://127.0.0.1:8800/ws",
                     WebSocketCmdResolver.DEFAULT
             );
@@ -78,15 +79,15 @@ public class Server {
 
         @Override
         public void onReceived(Pipe pipe, Cmd cmd) {
-            if (cmd instanceof WebSocketCmdNode) {
-                WebSocketCmdNode wsCmd = (WebSocketCmdNode) cmd;
-                WebSocketCmdNode res = null;
+            if (cmd instanceof WebSocketCmd) {
+                WebSocketCmd wsCmd = (WebSocketCmd) cmd;
+                WebSocketCmd res = null;
                 switch (wsCmd.getWebSocketFrameType()) {
                     case Text:
                         logger.info(String.format("### onReceived Text: %s", wsCmd.getTextContent()));
 
                         //回应
-                        res = WebSocketCmdNode.fromText("Received text: " + wsCmd.getTextContent());
+                        res = WebSocketCmd.fromText("Received text: " + wsCmd.getTextContent());
                         break;
                     case Binary:
                         logger.info("### onReceived Binary: \n");
@@ -95,7 +96,7 @@ public class Server {
                         //回应
                         ByteBuf buf = Unpooled.buffer();
                         buf.writeBytes("Received binary".getBytes(CharsetUtil.UTF_8));
-                        res = WebSocketCmdNode.fromBinary(buf);
+                        res = WebSocketCmd.fromBinary(buf);
                         break;
                     default:
                         break;

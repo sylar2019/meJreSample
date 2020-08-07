@@ -1,11 +1,13 @@
 package me.sample.io.rxtx;
 
-import me.java.library.io.common.cmd.Cmd;
-import me.java.library.io.common.cmd.Host;
-import me.java.library.io.common.cmd.Terminal;
-import me.java.library.io.common.pipe.Pipe;
-import me.java.library.io.common.pipe.PipeWatcher;
+import me.java.library.io.base.cmd.Cmd;
+import me.java.library.io.base.cmd.Host;
+import me.java.library.io.base.cmd.Terminal;
+import me.java.library.io.base.pipe.Pipe;
+import me.java.library.io.base.pipe.PipeWatcher;
+import me.java.library.io.store.rxtx.RxtxExpress;
 import me.java.library.io.store.rxtx.RxtxPipe;
+import me.java.library.utils.rxtx.RxtxParam;
 import me.sample.io.codec.jsonLine.JsonFrameDecoder;
 import me.sample.io.codec.jsonLine.JsonResolver;
 import org.slf4j.Logger;
@@ -34,9 +36,10 @@ public class Client {
 
     public void start() {
         if (pipe == null) {
-            pipe = RxtxPipe.express(
-                    "/dev/ttyAMA3",
-                    9600,
+            RxtxParam param = new RxtxParam();
+
+            pipe = RxtxExpress.rxtx(
+                    param,
                     new JsonFrameDecoder(),
                     new JsonResolver());
             pipe.setWatcher(watcher);
