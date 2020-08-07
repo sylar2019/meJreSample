@@ -1,5 +1,5 @@
 apply from: gradlesPath + "springboot.gradle"
 
 dependencies {
-    compile("meJreLibs:io-store-opc:${meJreLibsVersion}")
+    compile("meJreLibs:io-store-modbus:${meJreLibsVersion}")
 }
