@@ -1,6 +1,7 @@
 apply from: gradlesPath + "springboot.gradle"
 
 dependencies {
+    compile project(":io:app-frame")
     compile project(":io:codec:codec-jsonLine")
     compile("meJreLibs:io-store-rxtx:${meJreLibsVersion}")
 }

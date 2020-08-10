@@ -1,5 +1,6 @@
 apply from: gradlesPath + "springboot.gradle"
 
 dependencies {
+    compile project(":io:app-frame")
     compile("meJreLibs:io-store-lwm2m-client:${meJreLibsVersion}")
 }
