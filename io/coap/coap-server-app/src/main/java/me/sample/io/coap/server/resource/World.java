@@ -18,6 +18,6 @@ public class World extends ServerResource {
 
     @Override
     public void handlePOST(CoapExchange exchange) {
-        exchange.respond("hello, I am server");
+        exchange.respond("I am coap-server");
     }
 }

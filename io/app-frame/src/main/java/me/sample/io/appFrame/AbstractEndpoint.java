@@ -65,7 +65,7 @@ public abstract class AbstractEndpoint implements IEndpoint {
 
         @Override
         public void onReceived(Pipe pipe, Cmd cmd) {
-            printReceivedCmd(cmd);
+            onReceivedCmd(pipe, cmd);
         }
 
         @Override
@@ -73,6 +73,10 @@ public abstract class AbstractEndpoint implements IEndpoint {
             logger.error(String.format("### onException: %s", t));
         }
     };
+
+    protected void onReceivedCmd(Pipe pipe, Cmd cmd) {
+        printReceivedCmd(cmd);
+    }
 
     protected void printReceivedCmd(Cmd cmd) {
         logger.info(String.format("### onReceived: \n%s", cmd));

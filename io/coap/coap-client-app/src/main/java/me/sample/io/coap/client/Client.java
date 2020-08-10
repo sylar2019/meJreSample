@@ -43,7 +43,7 @@ public class Client extends AbstractClient {
         CoapRequestCmd cmd = new CoapRequestCmd(uri,
                 CoapMethod.POST,
                 CoapFormat.text);
-        cmd.setContent("hello , I am client");
+        cmd.setContent("I am coap-client");
 
         send(cmd);
     }

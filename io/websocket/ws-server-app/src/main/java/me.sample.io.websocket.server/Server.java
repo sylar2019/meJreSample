@@ -5,16 +5,15 @@ import io.netty.buffer.ByteBufUtil;
 import io.netty.buffer.Unpooled;
 import io.netty.util.CharsetUtil;
 import me.java.library.io.base.cmd.Cmd;
-import me.java.library.io.base.cmd.Host;
-import me.java.library.io.base.cmd.Terminal;
 import me.java.library.io.base.pipe.Pipe;
-import me.java.library.io.base.pipe.PipeWatcher;
 import me.java.library.io.store.websocket.WebSocketCmd;
 import me.java.library.io.store.websocket.WebSocketCmdResolver;
 import me.java.library.io.store.websocket.WebSocketExpress;
-import me.java.library.io.store.websocket.server.WebSocketServerPipe;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import me.java.library.io.store.websocket.WebSocketFrameType;
+import me.sample.io.appFrame.server.AbstractServer;
+import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 /**
  * File Name             :  TcpServerPipe
@@ -31,87 +30,45 @@ import org.slf4j.LoggerFactory;
  * CopyRight             : COPYRIGHT(c) allthings.vip  All Rights Reserved
  * *******************************************************************************************
  */
-public class Server {
+@Component
+public class Server extends AbstractServer {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
-
-    private WebSocketServerPipe pipe;
-
-    public void start() {
-        if (pipe == null) {
-            pipe = WebSocketExpress.server(
-                    "ws://127.0.0.1:8800/ws",
-                    WebSocketCmdResolver.DEFAULT
-            );
-            pipe.setWatcher(watcher);
-        }
-        pipe.start();
+    @Override
+    public String getName() {
+        return "Websocket服务端";
     }
 
-    public void stop() {
-        if (pipe != null) {
-            pipe.stop();
-        }
+    @Override
+    protected Pipe buildPipe() {
+        return WebSocketExpress.server(
+                "ws://127.0.0.1:9999/ws",
+                WebSocketCmdResolver.DEFAULT
+        );
     }
 
-    public boolean isRunning() {
-        if (pipe != null) {
-            return pipe.isRunning();
-        }
-        return false;
-    }
+    @Override
+    protected void onReceivedCmd(Pipe pipe, Cmd cmd) {
+        Optional.ofNullable(cmd).flatMap(v -> Optional.of((WebSocketCmd) cmd)).ifPresent(wsCmd -> {
 
-    private PipeWatcher watcher = new PipeWatcher() {
-        @Override
-        public void onHostStateChanged(Host host, boolean isRunning) {
-            logger.info(String.format("### onHostStateChanged: %s", isRunning));
-        }
-
-        @Override
-        public void onPipeRunningChanged(Pipe pipe, boolean isRunning) {
-            logger.info(String.format("### onPipeRunningChanged: %s", isRunning));
-        }
-
-        @Override
-        public void onConnectionChanged(Pipe pipe, Terminal terminal, boolean isConnected) {
-            logger.info(String.format("### onConnectionChanged: [%s] %s", terminal, isConnected));
-        }
-
-        @Override
-        public void onReceived(Pipe pipe, Cmd cmd) {
-            if (cmd instanceof WebSocketCmd) {
-                WebSocketCmd wsCmd = (WebSocketCmd) cmd;
-                WebSocketCmd res = null;
-                switch (wsCmd.getWebSocketFrameType()) {
-                    case Text:
-                        logger.info(String.format("### onReceived Text: %s", wsCmd.getTextContent()));
-
-                        //回应
-                        res = WebSocketCmd.fromText("Received text: " + wsCmd.getTextContent());
-                        break;
-                    case Binary:
-                        logger.info("### onReceived Binary: \n");
-                        ByteBufUtil.prettyHexDump(wsCmd.getBinaryContent());
-
-                        //回应
-                        ByteBuf buf = Unpooled.buffer();
-                        buf.writeBytes("Received binary".getBytes(CharsetUtil.UTF_8));
-                        res = WebSocketCmd.fromBinary(buf);
-                        break;
-                    default:
-                        break;
-                }
-
-                if (res != null) {
-                    pipe.send(res);
-                }
+            WebSocketCmd res = null;
+            String resText = "I am websocket-server";
+            switch (wsCmd.getWebSocketFrameType()) {
+                case Text:
+                    logger.info(String.format("### onReceived Text from client:\n %s", wsCmd.getTextContent()));
+                    //回应
+                    res = WebSocketCmd.fromText(resText);
+                    break;
+                case Binary:
+                    logger.info(String.format("### onReceived Binary from client:\n %s", ByteBufUtil.prettyHexDump(wsCmd.getBinaryContent())));
+                    //回应
+                    ByteBuf buf = Unpooled.buffer();
+                    buf.writeBytes(resText.getBytes(CharsetUtil.UTF_8));
+                    res = WebSocketCmd.fromBinary(buf);
+                    break;
+                default:
+                    break;
             }
-        }
-
-        @Override
-        public void onException(Pipe pipe, Throwable t) {
-            logger.error(String.format("### onException: %s", t));
-        }
-    };
-
+            pipe.send(res);
+        });
+    }
 }
