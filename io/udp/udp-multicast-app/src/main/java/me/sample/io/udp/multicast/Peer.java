@@ -39,6 +39,7 @@ public class Peer extends AbstractClient {
     @Override
     protected Pipe buildPipe() {
         return SocketExpress.multicast(
+                "en0",
                 MULTICAST_PORT,
                 MULTICAST_HOST,
                 new JsonResolver());
