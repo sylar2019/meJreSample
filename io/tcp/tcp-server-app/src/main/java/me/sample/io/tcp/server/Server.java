@@ -34,32 +34,6 @@ public class Server {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     private TcpServerPipe pipe;
-
-    public void start() {
-        if (pipe == null) {
-            pipe = SocketExpress.tcpServer(
-                    1000,
-                    new JsonFrameDecoder(),
-                    new JsonResolver()
-            );
-            pipe.setWatcher(watcher);
-        }
-        pipe.start();
-    }
-
-    public void stop() {
-        if (pipe != null) {
-            pipe.stop();
-        }
-    }
-
-    public boolean isRunning() {
-        if (pipe != null) {
-            return pipe.isRunning();
-        }
-        return false;
-    }
-
     private PipeWatcher watcher = new PipeWatcher() {
         @Override
         public void onHostStateChanged(Host host, boolean isRunning) {
@@ -89,5 +63,30 @@ public class Server {
             logger.error(String.format("### onException: %s", t));
         }
     };
+
+    public void start() {
+        if (pipe == null) {
+            pipe = SocketExpress.tcpServer(
+                    1000,
+                    new JsonFrameDecoder(),
+                    new JsonResolver()
+            );
+            pipe.setWatcher(watcher);
+        }
+        pipe.start();
+    }
+
+    public void stop() {
+        if (pipe != null) {
+            pipe.stop();
+        }
+    }
+
+    public boolean isRunning() {
+        if (pipe != null) {
+            return pipe.isRunning();
+        }
+        return false;
+    }
 
 }

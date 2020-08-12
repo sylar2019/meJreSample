@@ -26,27 +26,6 @@ import org.slf4j.LoggerFactory;
 public abstract class AbstractEndpoint implements IEndpoint {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
-    protected Pipe pipe;
-
-    protected abstract Pipe buildPipe();
-
-    @Override
-    public void start() {
-        if (pipe == null) {
-            pipe = buildPipe();
-            pipe.setWatcher(watcher);
-        }
-        pipe.start();
-    }
-
-    @Override
-    public void stop() {
-        if (pipe != null) {
-            pipe.stop();
-            pipe = null;
-        }
-    }
-
     final PipeWatcher watcher = new PipeWatcher() {
         @Override
         public void onHostStateChanged(Host host, boolean isRunning) {
@@ -73,6 +52,26 @@ public abstract class AbstractEndpoint implements IEndpoint {
             logger.error(String.format("### onException: %s", t));
         }
     };
+    protected Pipe pipe;
+
+    protected abstract Pipe buildPipe();
+
+    @Override
+    public void start() {
+        if (pipe == null) {
+            pipe = buildPipe();
+            pipe.setWatcher(watcher);
+        }
+        pipe.start();
+    }
+
+    @Override
+    public void stop() {
+        if (pipe != null) {
+            pipe.stop();
+            pipe = null;
+        }
+    }
 
     protected void onReceivedCmd(Pipe pipe, Cmd cmd) {
         printReceivedCmd(cmd);

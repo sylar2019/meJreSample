@@ -33,14 +33,6 @@ public enum Menu {
         this.menuName = menuName;
     }
 
-    public char getMenuKey() {
-        return menuKey;
-    }
-
-    public String getMenuName() {
-        return menuName;
-    }
-
     public static void show() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("\n\t请选择你要执行的操作:").append("\r\n");
@@ -57,6 +49,14 @@ public enum Menu {
             }
         }
         return null;
+    }
+
+    public char getMenuKey() {
+        return menuKey;
+    }
+
+    public String getMenuName() {
+        return menuName;
     }
 
 }

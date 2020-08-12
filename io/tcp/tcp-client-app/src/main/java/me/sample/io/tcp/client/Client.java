@@ -33,32 +33,6 @@ public class Client {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     private TcpClientPipe pipe;
-
-    public void start() {
-        if (pipe == null) {
-            pipe = SocketExpress.tcpClient(
-                    "localhost",
-                    10000,
-                    new JsonFrameDecoder(),
-                    new JsonResolver()
-            );
-            pipe.setWatcher(watcher);
-        }
-        pipe.start();
-    }
-
-    public void stop() {
-        if (pipe != null) {
-            pipe.stop();
-        }
-    }
-
-    public void send(Cmd cmd) {
-        if (pipe != null) {
-            pipe.send(cmd);
-        }
-    }
-
     private PipeWatcher watcher = new PipeWatcher() {
         @Override
         public void onHostStateChanged(Host host, boolean isRunning) {
@@ -85,5 +59,30 @@ public class Client {
             logger.error(String.format("### onException: %s", t));
         }
     };
+
+    public void start() {
+        if (pipe == null) {
+            pipe = SocketExpress.tcpClient(
+                    "localhost",
+                    10000,
+                    new JsonFrameDecoder(),
+                    new JsonResolver()
+            );
+            pipe.setWatcher(watcher);
+        }
+        pipe.start();
+    }
+
+    public void stop() {
+        if (pipe != null) {
+            pipe.stop();
+        }
+    }
+
+    public void send(Cmd cmd) {
+        if (pipe != null) {
+            pipe.send(cmd);
+        }
+    }
 
 }

@@ -10,8 +10,7 @@ include ":io:tcp:tcp-server-app"
 include ":io:tcp:tcp-client-app"
 
 include ":io:udp"
-include ":io:udp:udp-unicast-app"
-include ":io:udp:udp-broadcast-app"
+include ":io:udp:udp-peer-app"
 include ":io:udp:udp-multicast-app"
 
 include ":io:websocket"

@@ -5,7 +5,7 @@ import me.java.library.io.base.cmd.Host;
 import me.java.library.io.base.cmd.Terminal;
 import me.java.library.io.base.pipe.Pipe;
 import me.java.library.io.base.pipe.PipeWatcher;
-import me.java.library.io.store.mqtt.client.MqttClientParam;
+import me.java.library.io.store.mqtt.client.MqttClientParams;
 import me.java.library.io.store.mqtt.client.MqttClientPipe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,29 +30,6 @@ public class Client {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     private MqttClientPipe pipe;
-
-    public void start() {
-        if (pipe == null) {
-            MqttClientParam param = new MqttClientParam("tcp://127.0.0.1:1883");
-            pipe = new MqttClientPipe(param);
-            pipe.setWatcher(watcher);
-        }
-        pipe.start();
-    }
-
-    public void stop() {
-        if (pipe != null) {
-            pipe.stop();
-        }
-    }
-
-    public void send(Cmd cmd) {
-        if (pipe != null) {
-            pipe.send(cmd);
-        }
-    }
-
-
     private PipeWatcher watcher = new PipeWatcher() {
         @Override
         public void onHostStateChanged(Host host, boolean isRunning) {
@@ -79,5 +56,26 @@ public class Client {
             logger.error(String.format("### onException: %s", t));
         }
     };
+
+    public void start() {
+        if (pipe == null) {
+            MqttClientParams param = new MqttClientParams("tcp://127.0.0.1:1883");
+            pipe = new MqttClientPipe(param);
+            pipe.setWatcher(watcher);
+        }
+        pipe.start();
+    }
+
+    public void stop() {
+        if (pipe != null) {
+            pipe.stop();
+        }
+    }
+
+    public void send(Cmd cmd) {
+        if (pipe != null) {
+            pipe.send(cmd);
+        }
+    }
 
 }

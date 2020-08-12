@@ -34,7 +34,7 @@ public class JsonResolver implements SimpleCmdResolver {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
-    public List<Cmd> bufToCmd(ChannelHandlerContext ctx, ByteBuf buf) {
+    public List<Cmd> bufToCmd(ChannelHandlerContext ctx, ByteBuf buf) throws Exception {
         List<Cmd> list = Lists.newArrayList();
         byte[] bytes = new byte[buf.readableBytes()];
         buf.readBytes(bytes);
@@ -53,7 +53,7 @@ public class JsonResolver implements SimpleCmdResolver {
     }
 
     @Override
-    public ByteBuf cmdToBuf(Cmd cmd) {
+    public ByteBuf cmdToBuf(Cmd cmd) throws Exception {
         ByteBuf buf = Unpooled.buffer();
         String json = JsonUtils.toJSONString(cmd) + "\r\n";
 

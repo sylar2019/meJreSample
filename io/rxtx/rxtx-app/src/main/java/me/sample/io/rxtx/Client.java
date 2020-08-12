@@ -6,8 +6,8 @@ import me.java.library.io.base.cmd.Terminal;
 import me.java.library.io.base.pipe.Pipe;
 import me.java.library.io.base.pipe.PipeWatcher;
 import me.java.library.io.store.rxtx.RxtxExpress;
+import me.java.library.io.store.rxtx.RxtxParams;
 import me.java.library.io.store.rxtx.RxtxPipe;
-import me.java.library.utils.rxtx.RxtxParam;
 import me.sample.io.codec.jsonLine.JsonFrameDecoder;
 import me.sample.io.codec.jsonLine.JsonResolver;
 import org.slf4j.Logger;
@@ -33,31 +33,6 @@ public class Client {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private RxtxPipe pipe;
-
-    public void start() {
-        if (pipe == null) {
-            RxtxParam param = new RxtxParam("COM1", 9600);
-            pipe = RxtxExpress.rxtx(
-                    param,
-                    new JsonFrameDecoder(),
-                    new JsonResolver());
-            pipe.setWatcher(watcher);
-        }
-        pipe.start();
-    }
-
-    public void stop() {
-        if (pipe != null) {
-            pipe.stop();
-        }
-    }
-
-    public void send(Cmd cmd) {
-        if (pipe != null) {
-            pipe.send(cmd);
-        }
-    }
-
     private PipeWatcher watcher = new PipeWatcher() {
         @Override
         public void onHostStateChanged(Host host, boolean isRunning) {
@@ -84,5 +59,29 @@ public class Client {
             logger.error(String.format("### onException: %s", t));
         }
     };
+
+    public void start() {
+        if (pipe == null) {
+            RxtxParams param = new RxtxParams("COM1", 9600);
+            pipe = RxtxExpress.create(
+                    param,
+                    new JsonFrameDecoder(),
+                    new JsonResolver());
+            pipe.setWatcher(watcher);
+        }
+        pipe.start();
+    }
+
+    public void stop() {
+        if (pipe != null) {
+            pipe.stop();
+        }
+    }
+
+    public void send(Cmd cmd) {
+        if (pipe != null) {
+            pipe.send(cmd);
+        }
+    }
 
 }

@@ -7,9 +7,7 @@ import io.netty.util.CharsetUtil;
 import me.java.library.io.base.cmd.Cmd;
 import me.java.library.io.base.pipe.Pipe;
 import me.java.library.io.store.websocket.WebSocketCmd;
-import me.java.library.io.store.websocket.WebSocketCmdResolver;
 import me.java.library.io.store.websocket.WebSocketExpress;
-import me.java.library.io.store.websocket.WebSocketFrameType;
 import me.sample.io.appFrame.server.AbstractServer;
 import org.springframework.stereotype.Component;
 
@@ -40,10 +38,7 @@ public class Server extends AbstractServer {
 
     @Override
     protected Pipe buildPipe() {
-        return WebSocketExpress.server(
-                "ws://127.0.0.1:9999/ws",
-                WebSocketCmdResolver.DEFAULT
-        );
+        return WebSocketExpress.server(9999, "ws", false);
     }
 
     @Override

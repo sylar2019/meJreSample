@@ -2,7 +2,6 @@ package me.sample.io.websocket.client;
 
 import me.java.library.io.base.pipe.Pipe;
 import me.java.library.io.store.websocket.WebSocketCmd;
-import me.java.library.io.store.websocket.WebSocketCmdResolver;
 import me.java.library.io.store.websocket.WebSocketExpress;
 import me.sample.io.appFrame.client.AbstractClient;
 import org.springframework.stereotype.Component;
@@ -32,9 +31,7 @@ public class Client extends AbstractClient {
 
     @Override
     protected Pipe buildPipe() {
-        return WebSocketExpress.client(
-                "ws://127.0.0.1:9999/ws",
-                WebSocketCmdResolver.DEFAULT);
+        return WebSocketExpress.client("ws://127.0.0.1:9999/ws");
     }
 
     @Override

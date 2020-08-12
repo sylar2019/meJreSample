@@ -1,4 +1,4 @@
-package me.sample.io.udp.multicast;
+package me.sample.io.udp.peer;
 
 import me.sample.io.appFrame.client.AbstractClientApp;
 import org.springframework.boot.SpringApplication;
@@ -21,9 +21,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * *******************************************************************************************
  */
 @SpringBootApplication
-public class UdpMulticastApp extends AbstractClientApp {
+public class UdpUnicastApp extends AbstractClientApp {
     public static void main(String[] args) {
-        SpringApplication app = new SpringApplication(UdpMulticastApp.class);
+        SpringApplication app = new SpringApplication(UdpUnicastApp.class);
         app.run(args);
     }
 }
