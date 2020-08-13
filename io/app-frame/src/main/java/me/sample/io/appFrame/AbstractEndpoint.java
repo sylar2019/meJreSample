@@ -60,7 +60,7 @@ public abstract class AbstractEndpoint implements IEndpoint {
     public void start() {
         if (pipe == null) {
             pipe = buildPipe();
-            pipe.setWatcher(watcher);
+            afterPipeBuilded(pipe);
         }
         pipe.start();
     }
@@ -71,6 +71,10 @@ public abstract class AbstractEndpoint implements IEndpoint {
             pipe.stop();
             pipe = null;
         }
+    }
+
+    protected void afterPipeBuilded(Pipe pipe) {
+        pipe.setWatcher(watcher);
     }
 
     protected void onReceivedCmd(Pipe pipe, Cmd cmd) {

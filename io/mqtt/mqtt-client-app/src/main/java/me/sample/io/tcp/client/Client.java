@@ -1,14 +1,12 @@
 package me.sample.io.tcp.client;
 
 import me.java.library.io.base.cmd.Cmd;
-import me.java.library.io.base.cmd.Host;
-import me.java.library.io.base.cmd.Terminal;
 import me.java.library.io.base.pipe.Pipe;
-import me.java.library.io.base.pipe.PipeWatcher;
 import me.java.library.io.store.mqtt.client.MqttClientParams;
 import me.java.library.io.store.mqtt.client.MqttClientPipe;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import me.java.library.io.store.mqtt.common.MqttCmd;
+import me.sample.io.appFrame.client.AbstractClient;
+import org.springframework.stereotype.Component;
 
 /**
  * File Name             :  TcpServerPipe
@@ -25,57 +23,30 @@ import org.slf4j.LoggerFactory;
  * CopyRight             : COPYRIGHT(c) allthings.vip  All Rights Reserved
  * *******************************************************************************************
  */
-public class Client {
+@Component
+public class Client extends AbstractClient {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
-
-    private MqttClientPipe pipe;
-    private PipeWatcher watcher = new PipeWatcher() {
-        @Override
-        public void onHostStateChanged(Host host, boolean isRunning) {
-            logger.info(String.format("### onHostStateChanged: %s", isRunning));
-        }
-
-        @Override
-        public void onPipeRunningChanged(Pipe pipe, boolean isRunning) {
-            logger.info(String.format("### onPipeRunningChanged: %s", isRunning));
-        }
-
-        @Override
-        public void onConnectionChanged(Pipe pipe, Terminal terminal, boolean isConnected) {
-            logger.info(String.format("### onConnectionChanged: [%s] %s", terminal, isConnected));
-        }
-
-        @Override
-        public void onReceived(Pipe pipe, Cmd cmd) {
-            logger.info(String.format("### onReceived: \n%s", cmd));
-        }
-
-        @Override
-        public void onException(Pipe pipe, Throwable t) {
-            logger.error(String.format("### onException: %s", t));
-        }
-    };
-
-    public void start() {
-        if (pipe == null) {
-            MqttClientParams param = new MqttClientParams("tcp://127.0.0.1:1883");
-            pipe = new MqttClientPipe(param);
-            pipe.setWatcher(watcher);
-        }
-        pipe.start();
+    @Override
+    public String getName() {
+        return "mqtt客户端";
     }
 
-    public void stop() {
-        if (pipe != null) {
-            pipe.stop();
-        }
+    @Override
+    protected Pipe buildPipe() {
+        MqttClientParams param = new MqttClientParams("tcp://127.0.0.1:1883");
+        return new MqttClientPipe(param);
     }
 
-    public void send(Cmd cmd) {
-        if (pipe != null) {
-            pipe.send(cmd);
-        }
+    @Override
+    public void sendTestCmd() {
+        MqttCmd cmd = new MqttCmd("topic1/aaa", "I am mqtt client");
+        send(cmd);
     }
+
+    @Override
+    protected void onReceivedCmd(Pipe pipe, Cmd cmd) {
+        super.onReceivedCmd(pipe, cmd);
+    }
+
 
 }

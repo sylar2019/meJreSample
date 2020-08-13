@@ -1,0 +1,11 @@
+apply from: gradlesPath + "springboot.gradle"
+
+repositories {
+    //modbus4j
+    maven { url "https://maven.mangoautomation.net/repository/ias-release/" }
+}
+
+dependencies {
+    compile project(":io:app-frame")
+    compile("meJreLibs:io-store-modbus:${meJreLibsVersion}")
+}

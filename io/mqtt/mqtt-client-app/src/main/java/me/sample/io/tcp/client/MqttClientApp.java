@@ -1,13 +1,8 @@
 package me.sample.io.tcp.client;
 
-import me.sample.io.codec.jsonLine.JsonCmd;
-import me.sample.io.codec.jsonLine.JsonCmdUtils;
-import org.springframework.boot.CommandLineRunner;
+import me.sample.io.appFrame.client.AbstractClientApp;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
-
-import static java.lang.System.exit;
 
 
 /**
@@ -26,43 +21,10 @@ import static java.lang.System.exit;
  * *******************************************************************************************
  */
 @SpringBootApplication
-public class MqttClientApp implements CommandLineRunner {
+public class MqttClientApp extends AbstractClientApp {
     public static void main(String[] args) {
         SpringApplication app = new SpringApplication(MqttClientApp.class);
-        app.setRegisterShutdownHook(true);
-        ConfigurableApplicationContext ctx = app.run(args);
+        app.run(args);
     }
 
-    @Override
-    public void run(String... args) throws Exception {
-        Client client = new Client();
-        Menu.show();
-        char ch;
-        while ((ch = (char) System.in.read()) != Menu.Exit.getMenuKey()) {
-            Menu menu = Menu.from(ch);
-            if (menu != null) {
-                switch (menu) {
-                    case Start:
-                        System.out.println("start...");
-                        client.start();
-                        break;
-                    case Stop:
-                        System.out.println("stop...");
-                        client.stop();
-                        break;
-                    case Send:
-                        System.out.println("send...");
-                        JsonCmd cmd = JsonCmdUtils.clientToServer("111");
-                        client.send(cmd);
-                        break;
-                    default:
-                        break;
-                }
-                Menu.show();
-            }
-        }
-
-        client.stop();
-        exit(0);
-    }
 }

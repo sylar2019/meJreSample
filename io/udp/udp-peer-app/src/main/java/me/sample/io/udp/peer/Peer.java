@@ -34,7 +34,7 @@ public class Peer extends AbstractClient {
 
     @Override
     public String getName() {
-        return "Udp单播节点";
+        return "Udp对等节点";
     }
 
     @Override
@@ -51,7 +51,7 @@ public class Peer extends AbstractClient {
         Terminal to = Terminals.Peer2;
         to.setInetSocketAddress(toAddress);
         JsonCmd cmd = new JsonCmd(from, to, "101");
-        cmd.setAttr("这是一条单播消息，from peer1");
+        cmd.setAttr("这是一条udp消息，from peer1");
         send(cmd);
     }
 
