@@ -17,11 +17,11 @@ import org.springframework.stereotype.Component;
 public class Slave extends AbstractSlave {
     @Override
     protected Pipe buildPipe() {
-        return ModbusExpress.udpSlave(false);
+        return ModbusExpress.udpSlave(9999,false);
     }
 
     @Override
     public String getName() {
-        return "Ascii Slave";
+        return "Udp Slave";
     }
 }

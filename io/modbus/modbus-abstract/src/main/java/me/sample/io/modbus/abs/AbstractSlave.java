@@ -60,6 +60,8 @@ public abstract class AbstractSlave extends AbstractServer {
     Runnable updateRunner = new Runnable() {
         @Override
         public void run() {
+            logger.info("### update modbus slaveImage...");
+
             images.forEach(image -> {
                 image.setExceptionStatus((byte) RandomUtils.getRandom(128));
                 for (int i = 0; i < 10; i++) {

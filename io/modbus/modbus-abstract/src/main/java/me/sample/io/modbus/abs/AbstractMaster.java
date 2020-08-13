@@ -23,7 +23,7 @@ public abstract class AbstractMaster extends AbstractClient {
     @Override
     public void sendTestCmd() {
         int slaveId = 1;
-        ModbusRequestCmd req = new ModbusRequestCmd(FunctionType.READ_INPUT_REGISTERS, slaveId);
+        ModbusRequestCmd req = new ModbusRequestCmd(FunctionType.READ_INPUT_REGISTERS, slaveId, 0, 5);
         send(req);
     }
 

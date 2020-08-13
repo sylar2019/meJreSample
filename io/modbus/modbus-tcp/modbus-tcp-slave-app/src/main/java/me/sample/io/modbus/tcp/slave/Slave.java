@@ -18,11 +18,11 @@ import org.springframework.stereotype.Component;
 public class Slave extends AbstractSlave {
     @Override
     protected Pipe buildPipe() {
-        return ModbusExpress.tcpSlave(false);
+        return ModbusExpress.tcpSlave(9999,false);
     }
 
     @Override
     public String getName() {
-        return "Ascii Slave";
+        return "Tcp Slave";
     }
 }
