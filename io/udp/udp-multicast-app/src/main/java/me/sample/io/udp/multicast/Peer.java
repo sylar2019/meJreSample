@@ -33,7 +33,7 @@ public class Peer extends AbstractClient {
 
     @Override
     public String getName() {
-        return "Udp组播节点";
+        return "Udp Multlcast Node";
     }
 
     @Override
@@ -59,6 +59,7 @@ public class Peer extends AbstractClient {
     @Override
     protected void onReceivedCmd(Pipe pipe, Cmd cmd) {
         super.onReceivedCmd(pipe, cmd);
+        //TODO do something ,eg: save to DB or send to MQ
     }
 
 }

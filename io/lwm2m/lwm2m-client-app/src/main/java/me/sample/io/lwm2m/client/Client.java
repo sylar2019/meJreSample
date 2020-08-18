@@ -1,14 +1,13 @@
-package me.sample.io.rxtx;
+package me.sample.io.lwm2m.client;
 
-import me.java.library.io.base.cmd.Cmd;
-import me.java.library.io.base.cmd.Terminal;
+
 import me.java.library.io.base.pipe.Pipe;
-import me.java.library.io.store.rxtx.RxtxExpress;
-import me.java.library.io.store.rxtx.RxtxParams;
+import me.java.library.io.store.lwm2m.client.Lwm2mClientParams;
+import me.java.library.io.store.lwm2m.client.Lwm2mClientPipe;
 import me.sample.io.appFrame.client.AbstractClient;
-import me.sample.io.codec.jsonLine.JsonCmd;
-import me.sample.io.codec.jsonLine.JsonFrameDecoder;
-import me.sample.io.codec.jsonLine.JsonResolver;
+import me.sample.io.lwm2m.client.instance.LocationSensor;
+import me.sample.io.lwm2m.client.instance.Pm25Sensor;
+import org.eclipse.leshan.core.LwM2mId;
 import org.springframework.stereotype.Component;
 
 /**
@@ -29,30 +28,28 @@ import org.springframework.stereotype.Component;
 @Component
 public class Client extends AbstractClient {
 
-
     @Override
     public String getName() {
-        return "RXTX Node";
+        return "LwM2M Client";
     }
 
     @Override
     protected Pipe buildPipe() {
-        RxtxParams param = new RxtxParams("COM1", 9600);
-        return RxtxExpress.create(
-                param,
-                new JsonFrameDecoder(),
-                new JsonResolver());
+        Lwm2mClientParams params = new Lwm2mClientParams();
+        params.setServerUri("coap://localhost:9999");
+        params.setRemotePort(9988);
+        return new Lwm2mClientPipe(params);
+    }
+
+    @Override
+    protected void afterPipeBuilded(Pipe pipe) {
+        super.afterPipeBuilded(pipe);
+        Lwm2mClientPipe p = (Lwm2mClientPipe) pipe;
+        p.initInstances(LwM2mId.DEVICE, new Pm25Sensor());
     }
 
     @Override
     public void sendTestCmd() {
-        JsonCmd cmd = new JsonCmd(Terminal.LOCAL, Terminal.REMOTE, "101");
-        send(cmd);
-    }
-
-    @Override
-    protected void onReceivedCmd(Pipe pipe, Cmd cmd) {
-        super.onReceivedCmd(pipe, cmd);
     }
 
 }

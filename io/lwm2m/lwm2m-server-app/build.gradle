@@ -3,4 +3,5 @@ apply from: gradlesPath + "springboot.gradle"
 dependencies {
     compile project(":io:app-frame")
     compile("meJreLibs:io-store-lwm2m-server:${meJreLibsVersion}")
+    compile("redis.clients:jedis:3.2.0")
 }

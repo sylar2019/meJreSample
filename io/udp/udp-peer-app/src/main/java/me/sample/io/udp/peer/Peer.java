@@ -34,7 +34,7 @@ public class Peer extends AbstractClient {
 
     @Override
     public String getName() {
-        return "Udp对等节点";
+        return "Udp Peer";
     }
 
     @Override
@@ -58,6 +58,7 @@ public class Peer extends AbstractClient {
     @Override
     protected void onReceivedCmd(Pipe pipe, Cmd cmd) {
         logger.info(String.format("### onReceived: \n%s", cmd));
+        //TODO do something ,eg: save to DB or send to MQ
 
         JsonCmd res = new JsonCmd(cmd.getTo(), cmd.getFrom());
         if (Objects.equals(cmd.getCode(), "101")) {

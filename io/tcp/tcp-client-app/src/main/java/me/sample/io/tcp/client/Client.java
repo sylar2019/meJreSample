@@ -1,17 +1,14 @@
 package me.sample.io.tcp.client;
 
 
-import me.java.library.io.base.cmd.Cmd;
-import me.java.library.io.base.cmd.Host;
-import me.java.library.io.base.cmd.Terminal;
 import me.java.library.io.base.pipe.Pipe;
-import me.java.library.io.base.pipe.PipeWatcher;
 import me.java.library.io.store.socket.SocketExpress;
-import me.java.library.io.store.socket.tcp.TcpClientPipe;
+import me.sample.io.appFrame.client.AbstractClient;
+import me.sample.io.codec.jsonLine.JsonCmd;
+import me.sample.io.codec.jsonLine.JsonCmdUtils;
 import me.sample.io.codec.jsonLine.JsonFrameDecoder;
 import me.sample.io.codec.jsonLine.JsonResolver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 /**
  * File Name             :  TcpServerPipe
@@ -28,61 +25,28 @@ import org.slf4j.LoggerFactory;
  * CopyRight             : COPYRIGHT(c) allthings.vip  All Rights Reserved
  * *******************************************************************************************
  */
-public class Client {
+@Component
+public class Client extends AbstractClient {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
-
-    private TcpClientPipe pipe;
-    private PipeWatcher watcher = new PipeWatcher() {
-        @Override
-        public void onHostStateChanged(Host host, boolean isRunning) {
-            logger.info(String.format("### onHostStateChanged: %s", isRunning));
-        }
-
-        @Override
-        public void onPipeRunningChanged(Pipe pipe, boolean isRunning) {
-            logger.info(String.format("### onPipeRunningChanged: %s", isRunning));
-        }
-
-        @Override
-        public void onConnectionChanged(Pipe pipe, Terminal terminal, boolean isConnected) {
-            logger.info(String.format("### onConnectionChanged: [%s] %s", terminal, isConnected));
-        }
-
-        @Override
-        public void onReceived(Pipe pipe, Cmd cmd) {
-            logger.info(String.format("### onReceived: \n%s", cmd));
-        }
-
-        @Override
-        public void onException(Pipe pipe, Throwable t) {
-            logger.error(String.format("### onException: %s", t));
-        }
-    };
-
-    public void start() {
-        if (pipe == null) {
-            pipe = SocketExpress.tcpClient(
-                    "localhost",
-                    10000,
-                    new JsonFrameDecoder(),
-                    new JsonResolver()
-            );
-            pipe.setWatcher(watcher);
-        }
-        pipe.start();
+    @Override
+    public String getName() {
+        return "Tcp Client";
     }
 
-    public void stop() {
-        if (pipe != null) {
-            pipe.stop();
-        }
+    @Override
+    protected Pipe buildPipe() {
+        return SocketExpress.tcpClient(
+                "localhost",
+                9999,
+                new JsonFrameDecoder(),
+                new JsonResolver()
+        );
     }
 
-    public void send(Cmd cmd) {
-        if (pipe != null) {
-            pipe.send(cmd);
-        }
+    @Override
+    public void sendTestCmd() {
+        JsonCmd cmd = JsonCmdUtils.clientToServer("101");
+        send(cmd);
     }
 
 }

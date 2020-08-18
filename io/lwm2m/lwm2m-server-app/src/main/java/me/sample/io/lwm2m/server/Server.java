@@ -1,13 +1,10 @@
-package me.sample.io.tcp.server;
+package me.sample.io.lwm2m.server;
 
 import me.java.library.io.base.cmd.Cmd;
 import me.java.library.io.base.pipe.Pipe;
-import me.java.library.io.store.socket.SocketExpress;
+import me.java.library.io.store.lwm2m.server.Lwm2mServerParams;
+import me.java.library.io.store.lwm2m.server.Lwm2mServerPipe;
 import me.sample.io.appFrame.server.AbstractServer;
-import me.sample.io.codec.jsonLine.JsonCmd;
-import me.sample.io.codec.jsonLine.JsonCmdUtils;
-import me.sample.io.codec.jsonLine.JsonFrameDecoder;
-import me.sample.io.codec.jsonLine.JsonResolver;
 import org.springframework.stereotype.Component;
 
 /**
@@ -30,26 +27,22 @@ public class Server extends AbstractServer {
 
     @Override
     public String getName() {
-        return "Tcp Server";
+        return "LwM2M Server";
     }
 
     @Override
     protected Pipe buildPipe() {
-        return SocketExpress.tcpServer(
-                9999,
-                new JsonFrameDecoder(),
-                new JsonResolver()
-        );
+        Lwm2mServerParams params = new Lwm2mServerParams();
+        params.setWebPort(9999);
+        params.setLocalPort(9988);
+        return new Lwm2mServerPipe(params);
     }
 
     @Override
     protected void onReceivedCmd(Pipe pipe, Cmd cmd) {
         super.onReceivedCmd(pipe, cmd);
+        logger.info("to do something, eg: saveDB or sendMQ");
         //TODO do something ,eg: save to DB or send to MQ
 
-        //response
-        JsonCmd res = JsonCmdUtils.serverToClient("201");
-        pipe.send(res);
     }
-
 }

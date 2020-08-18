@@ -31,12 +31,12 @@ public class Server extends AbstractServer {
 
     @Override
     public String getName() {
-        return "CoAP服务端";
+        return "CoAP Server";
     }
 
     @Override
     protected Pipe buildPipe() {
-        CoapServerPipe pipe = CoapExpress.server(9999);
+        CoapServerPipe pipe = CoapExpress.server();
         pipe.addResources(new World());
         return pipe;
     }

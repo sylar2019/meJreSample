@@ -1,12 +1,12 @@
-package me.sample.io.tcp.server;
+package me.sample.io.lwm2m.client;
 
-import me.sample.io.appFrame.server.AbstractServerApp;
+import me.sample.io.appFrame.client.AbstractClientApp;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 /**
- * File Name             :  TcpServerApp
+ * File Name             :  TcpClientApp
  *
  * @author :  sylar
  * Create                :  2019/12/9
@@ -21,10 +21,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * *******************************************************************************************
  */
 @SpringBootApplication
-public class TcpServerApp extends AbstractServerApp {
-
+public class Lwm2mClientApp extends AbstractClientApp {
     public static void main(String[] args) {
-        SpringApplication app = new SpringApplication(TcpServerApp.class);
+        SpringApplication app = new SpringApplication(Lwm2mClientApp.class);
         app.run(args);
     }
 }

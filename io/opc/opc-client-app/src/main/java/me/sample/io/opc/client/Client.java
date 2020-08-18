@@ -26,7 +26,7 @@ public class Client extends AbstractClient {
 
     @Override
     public String getName() {
-        return "opc客户端";
+        return "OPC Client";
     }
 
     @Override

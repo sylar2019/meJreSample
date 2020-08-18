@@ -33,7 +33,7 @@ public class Server extends AbstractServer {
 
     @Override
     public String getName() {
-        return "Websocket服务端";
+        return "Websocket Server";
     }
 
     @Override
@@ -44,6 +44,8 @@ public class Server extends AbstractServer {
     @Override
     protected void onReceivedCmd(Pipe pipe, Cmd cmd) {
         Optional.ofNullable(cmd).flatMap(v -> Optional.of((WebSocketCmd) cmd)).ifPresent(wsCmd -> {
+
+            //TODO do something ,eg: save to DB or send to MQ
 
             WebSocketCmd res = null;
             String resText = "I am websocket-server";

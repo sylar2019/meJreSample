@@ -28,7 +28,7 @@ public class Client extends AbstractClient {
 
     @Override
     public String getName() {
-        return "mqtt客户端";
+        return "MQTT Client";
     }
 
     @Override
@@ -46,6 +46,14 @@ public class Client extends AbstractClient {
     @Override
     protected void onReceivedCmd(Pipe pipe, Cmd cmd) {
         super.onReceivedCmd(pipe, cmd);
+
+        /**
+         * MQTT Server 是一个中间件服务，可以使用任何标准的服务供应商方案，
+         * 物联网平台云端若要存储 MQTT Server 中终端上报数据，
+         * 可以专门开启一个特定的 MQTT Client 来向MQTT Server订阅数据
+         */
+
+        //TODO do something ,eg: save to DB or send to MQ
     }
 
 

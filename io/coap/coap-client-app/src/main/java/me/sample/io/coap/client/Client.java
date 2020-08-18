@@ -4,6 +4,7 @@ package me.sample.io.coap.client;
 import me.java.library.io.base.cmd.Cmd;
 import me.java.library.io.base.pipe.Pipe;
 import me.java.library.io.store.coap.*;
+import me.java.library.utils.base.JsonUtils;
 import me.sample.io.appFrame.client.AbstractClient;
 import org.springframework.stereotype.Component;
 
@@ -29,7 +30,7 @@ public class Client extends AbstractClient {
 
     @Override
     public String getName() {
-        return "CoAP客户端";
+        return "CoAP Client";
     }
 
     @Override
@@ -39,11 +40,13 @@ public class Client extends AbstractClient {
 
     @Override
     public void sendTestCmd() {
-        String uri = "coap://127.0.0.1:9999/world";
+        String uri = "coap://127.0.0.1/world";
         CoapRequestCmd cmd = new CoapRequestCmd(uri,
                 CoapMethod.POST,
-                CoapFormat.text);
-        cmd.setContent("I am coap-client");
+                CoapFormat.json);
+
+        Foo foo = new Foo("I am coap-client");
+        cmd.setContent(JsonUtils.toJSONString(foo));
 
         send(cmd);
     }

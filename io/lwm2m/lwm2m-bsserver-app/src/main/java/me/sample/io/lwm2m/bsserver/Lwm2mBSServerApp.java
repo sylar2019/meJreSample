@@ -1,4 +1,4 @@
-package me.sample.io.tcp.server;
+package me.sample.io.lwm2m.bsserver;
 
 import me.sample.io.appFrame.server.AbstractServerApp;
 import org.springframework.boot.SpringApplication;
@@ -21,10 +21,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * *******************************************************************************************
  */
 @SpringBootApplication
-public class TcpServerApp extends AbstractServerApp {
+public class Lwm2mBSServerApp extends AbstractServerApp {
 
     public static void main(String[] args) {
-        SpringApplication app = new SpringApplication(TcpServerApp.class);
+        SpringApplication app = new SpringApplication(Lwm2mBSServerApp.class);
         app.run(args);
     }
 }

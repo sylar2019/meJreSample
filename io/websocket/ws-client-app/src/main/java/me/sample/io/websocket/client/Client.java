@@ -26,7 +26,7 @@ public class Client extends AbstractClient {
 
     @Override
     public String getName() {
-        return "Websocket客户端";
+        return "Websocket Client";
     }
 
     @Override
