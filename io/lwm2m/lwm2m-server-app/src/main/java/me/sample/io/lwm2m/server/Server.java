@@ -43,6 +43,5 @@ public class Server extends AbstractServer {
         super.onReceivedCmd(pipe, cmd);
         logger.info("to do something, eg: saveDB or sendMQ");
         //TODO do something ,eg: save to DB or send to MQ
-
     }
 }
