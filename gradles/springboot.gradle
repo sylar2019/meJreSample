@@ -8,7 +8,7 @@ configurations {
 
 dependencies {
     //boot
-    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile("org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}")
             {
                 //排除spring 自带的jackson
                 exclude group: "com.fasterxml.jackson.core"
@@ -20,7 +20,7 @@ dependencies {
     compile("com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}")
 
     //test
-    testCompile("org.springframework.boot:spring-boot-starter-test")
+    testCompile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
 }
 
 
