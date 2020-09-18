@@ -1,0 +1,48 @@
+server:
+  port: 8081
+
+spring:
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        register: true
+        service-name: thrift-xxx-server/rest
+        instance-id: ${spring.cloud.consul.discovery.service-name}:${spring.cloud.client.ipAddress}:${server.port}
+        prefer-ip-address: true
+        tags:
+          - 8081
+          - http
+        register-health-check: true
+        health-check-path: /health
+        health-check-interval: 10s
+        health-check-critical-timeout: 10s
+
+  thrift:
+    server:
+      service-id: thrift-xxx-server
+      port: 26001
+      worker-queue-capacity: 1000
+      service-model: hsHa
+      hs-ha:
+        min-worker-threads: 5
+        max-worker-threads: 10
+        keep-alived-time: 1
+      thread-pool:
+        min-worker-threads: 5
+        max-worker-threads: 10
+        request-timeout: 5
+        keep-alived-time: 2
+      discovery:
+        enabled: true
+        host: localhost
+        port: 8500
+        tags:
+          - rpc
+          - 26001
+        health-check:
+          enabled: true
+          check-interval: 10s
+          check-timeout: 3s
+          check-critical-timeout: 10s

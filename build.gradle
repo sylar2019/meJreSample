@@ -10,11 +10,12 @@ buildscript {
 
     repositories {
         mavenLocal()
-        maven { url "https://maven.aliyun.com/repository/gradle-plugin" }
+        maven { url REPO_ALIYUN_GRADLE_PLUGIN }
     }
 
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath "gradle.plugin.org.jruyi.gradle:thrift-gradle-plugin:0.4.1"
     }
 }
 
@@ -26,25 +27,18 @@ allprojects {
 
     repositories {
         mavenLocal()
-        maven { url "https://maven.aliyun.com/repository/public" }
-        maven { url "https://mirrors.huaweicloud.com/repository/maven/" }
+        maven { url REPO_ALIYUN_PUBLIC }
+        maven { url REPO_NEXUS_PUBLIC }
     }
 }
 
 subprojects {
-    configurations.all {
-        //不使用缓存，使用仓库中最新的包
-        resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds' // 动态版本 x.x.+
-        resolutionStrategy.cacheChangingModulesFor 0, 'seconds'//  变化版本 x.x.x
-        resolutionStrategy {
-            force "com.google.guava:guava:${guavaVersion}"
-            force "io.netty:netty-all:${nettyVersion}"
-        }
-    }
+
 }
+/** ******************************************************************************************/
 
 configure(getJavaProjects()) {
     apply from: gradlesPath + "java.gradle"
 }
 
-/** ******************************************************************************************/
+

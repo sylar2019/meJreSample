@@ -1,0 +1,9 @@
+spring:
+  thrift:
+    server:
+      service-id: thrift-xxx-server
+      port: 25001
+      discovery:
+        enabled: true
+        host: localhost
+        port: 8500

@@ -1,0 +1,1 @@
+package me.sample.rpc.thrift.client;

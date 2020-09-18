@@ -1,0 +1,18 @@
+server:
+  port: 8899
+
+endpoints:
+  health:
+    sensitive: false
+    enabled: true
+management:
+  security:
+    enabled: false
+
+spring:
+  application:
+    name: thrift-xxx-client-app
+  cloud:
+    consul:
+      host: localhost
+      port: 8500

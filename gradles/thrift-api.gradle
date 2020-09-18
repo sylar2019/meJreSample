@@ -1,0 +1,12 @@
+apply from: gradlesPath + "const.gradle"
+apply plugin: 'org.jruyi.thrift'
+
+dependencies {
+    compile "org.apache.thrift:libthrift:${thriftVersion}"
+}
+
+compileThrift{
+//    sourceDir "$projectDir/src/main/thrift"
+//    outputDir "$projectDir/src/main/java"
+//    generator 'java', 'private-members'
+}

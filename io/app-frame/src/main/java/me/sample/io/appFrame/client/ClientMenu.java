@@ -25,8 +25,8 @@ public enum ClientMenu {
      //@formatter:on
     ;
 
-    private char menuKey;
-    private String menuName;
+    private final char menuKey;
+    private final String menuName;
 
     ClientMenu(char menuKey, String menuName) {
         this.menuKey = menuKey;

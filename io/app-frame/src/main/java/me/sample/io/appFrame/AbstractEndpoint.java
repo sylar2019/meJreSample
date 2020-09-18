@@ -58,6 +58,10 @@ public abstract class AbstractEndpoint implements IEndpoint {
 
     @Override
     public void start() {
+        if(pipe != null && pipe.isRunning()){
+            System.out.println("### 重复启动，已经在运行");
+            return;
+        }
         if (pipe == null) {
             pipe = buildPipe();
             afterPipeBuilded(pipe);
@@ -70,6 +74,9 @@ public abstract class AbstractEndpoint implements IEndpoint {
         if (pipe != null) {
             pipe.stop();
             pipe = null;
+        }
+        else{
+            System.out.println("### 未启动，无需停止");
         }
     }
 

@@ -1,0 +1,5 @@
+spring:
+  profiles:
+    active: 25001
+  application:
+    name: thrift-xxx-server-boot-app

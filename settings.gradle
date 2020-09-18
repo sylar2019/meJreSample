@@ -51,3 +51,10 @@ include ":io:modbus:modbus-udp:modbus-udp-slave-app"
 include ":io:opc"
 include ":io:opc:opc-client-app"
 
+include ":rpc"
+include ":rpc:thrift"
+include ":rpc:thrift:thrift-xxx-api"
+include ":rpc:thrift:thrift-xxx-client"
+include ":rpc:thrift:thrift-xxx-server-boot"
+include ":rpc:thrift:thrift-xxx-server-cloud"
+
