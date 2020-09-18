@@ -1,1 +1,6 @@
-//apply from: gradlesPath + "thrift.gradle"
+apply from: gradlesPath + "springcloud.gradle"
+
+dependencies {
+    compile project(":rpc:grpc:grpc-xxx-api")
+    compile("meJreLibs:spring-cloud-starter-grpc-server:${meJreLibsVersion}")
+}

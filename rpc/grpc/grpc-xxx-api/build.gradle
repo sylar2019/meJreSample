@@ -1,0 +1,1 @@
+apply from: gradlesPath + "rpc-grpc-api.gradle"

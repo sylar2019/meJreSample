@@ -57,4 +57,8 @@ include ":rpc:thrift:thrift-xxx-api"
 include ":rpc:thrift:thrift-xxx-client"
 include ":rpc:thrift:thrift-xxx-server-boot"
 include ":rpc:thrift:thrift-xxx-server-cloud"
+include ":rpc:grpc"
+include ":rpc:grpc:grpc-xxx-api"
+include ":rpc:grpc:grpc-xxx-client"
+include ":rpc:grpc:grpc-xxx-server"
 

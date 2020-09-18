@@ -5,5 +5,5 @@ spring:
       port: 25001
       discovery:
         enabled: true
-        host: localhost
+        host: sylar.host
         port: 8500
