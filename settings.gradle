@@ -14,9 +14,8 @@ pluginManagement {
 rootProject.name = "meJreSample"
 
 include ":ops"
-include ":ops:discovery-eureka"
-include ":ops:discovery-consul"
-
+include ":ops:eureka-server"
+include ":ops:consul-server"
 
 include ":io"
 include ":io:app-frame"
