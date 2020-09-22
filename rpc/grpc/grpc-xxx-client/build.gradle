@@ -3,4 +3,8 @@ apply from: gradlesPath + "springcloud.gradle"
 dependencies {
     compile project(":rpc:grpc:grpc-xxx-api")
     compile("meJreLibs:spring-cloud-starter-grpc-client:${meJreLibsVersion}")
+
+    //使用consul或eureka作为注册中心，只能二选一
+//    compile("org.springframework.cloud:spring-cloud-starter-consul-discovery")
+    compile("org.springframework.cloud:spring-cloud-starter-eureka")
 }

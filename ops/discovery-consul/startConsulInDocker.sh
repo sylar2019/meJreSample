@@ -11,7 +11,7 @@
 # docker run -dti --name consul -e CONSUL_BIND_INTERFACE=eth0 consul
 
 docker run -dti \
-    --name consul \
+    --name discovery-consul \
     -p 8500:8500 -p 8300:8300 -p 8301:8301 -p 8302:8302 -p 8600:8600 \
     consul agent -server \
     -bootstrap-expect=1 \

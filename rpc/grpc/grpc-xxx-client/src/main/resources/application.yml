@@ -1,0 +1,15 @@
+endpoints:
+  health:
+    sensitive: false
+    enabled: true
+management:
+  security:
+    enabled: false
+
+spring:
+  profiles:
+    active: eureka
+  application:
+    name: grpc-xxx-client-app
+
+server.port: 8899

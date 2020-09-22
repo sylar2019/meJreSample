@@ -1,0 +1,18 @@
+management:
+  security:
+    enabled: false
+endpoints:
+  health:
+    sensitive: false
+    enabled: true
+
+spring:
+  profiles:
+    active: eureka
+  application:
+    name: grpc-xxx-server
+
+server.port: 0
+grpc.server.port: 27001
+
+

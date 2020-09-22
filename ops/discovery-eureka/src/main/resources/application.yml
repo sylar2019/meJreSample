@@ -1,0 +1,9 @@
+spring.profiles.active: default
+
+# 自动发现configServer, 该配置项须放在 application-default.yml
+#spring.cloud.config.discovery.enabled: false
+#spring.cloud.config.discovery.service-id: ops-config
+# 服务名称与端口
+spring.application.name: eureka-server
+server.port: 8761
+

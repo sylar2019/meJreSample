@@ -1,0 +1,1 @@
+docker run -dti --name discovery-eureka   -p8761:8761  springcloud/eureka
