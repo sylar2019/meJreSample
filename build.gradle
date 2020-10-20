@@ -1,4 +1,10 @@
 /** ******************************************************************************************/
+ext {
+    rootPath = rootProject.rootDir.getAbsolutePath()
+    gradlesPath = "${rootPath}/gradles/"
+}
+
+/** ******************************************************************************************/
 buildscript {
     repositories {
         maven { url REPO_ALIYUN_GRADLE_PLUGIN }
@@ -9,8 +15,8 @@ buildscript {
         classpath "gradle.plugin.com.google.protobuf:protobuf-gradle-plugin:${gprcPluginVersion}"
     }
 }
-/** ******************************************************************************************/
 
+/** ******************************************************************************************/
 allprojects {
     group rootProject.name
     version "1.0.0"
@@ -23,10 +29,6 @@ allprojects {
 }
 
 subprojects {
-    ext {
-        rootPath = rootProject.rootDir.getAbsolutePath()
-        gradlesPath = "${rootPath}/gradles/"
-    }
 
     configurations.all {
         resolutionStrategy {
