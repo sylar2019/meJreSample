@@ -15,12 +15,26 @@ buildscript {
 
 allprojects {
     group rootProject.name
-    version "1.0.0"
+    version "master"
 
     repositories {
         mavenLocal()
         maven { url REPO_ALIYUN_PUBLIC }
-        maven { url REPO_NEXUS_PUBLIC }
+
+        maven {
+            credentials {
+                username REPO_USERNAME
+                password REPO_PASSWORD
+            }
+            url REPO_RELAESE
+        }
+        maven {
+            credentials {
+                username REPO_USERNAME
+                password REPO_PASSWORD
+            }
+            url REPO_SNAPSHOT
+        }
     }
 }
 

@@ -86,5 +86,5 @@ ext {
 
 //self
 ext{
-    meJreLibsVersion = "1.0.0"
+    meJreLibsVersion = "1.x"
 }
